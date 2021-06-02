@@ -12,11 +12,24 @@ get '/authors' do
 end
 
 get '/authors/:id' do |id|
-  response = @@AUTHOR_SERVICE.show_author_info(id).values
-  json(response)
+  response = @@AUTHOR_SERVICE.show_author_info(id)
+  json(response.values) unless response.nil?
 end
 
 post '/authors/create' do
   data = JSON.parse(request.body.read)
-  puts data[name]
+  response = @@AUTHOR_SERVICE.add_new_author(data['name'],data['age'])
+  json(response.values)
 end
+
+patch '/authors/:id' do |id|
+  data = JSON.parse(request.body.read)
+  response = @@AUTHOR_SERVICE.update_author(id,data['name'],data['age'])
+  json(response.values) unless response.nil?
+end
+
+delete '/authors/:id' do |id|
+  response = @@AUTHOR_SERVICE.delete_author(id)
+  json(response.values) unless response.nil?
+end
+

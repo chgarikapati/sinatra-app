@@ -9,12 +9,7 @@ class AuthorServices
     Authors.all
   end
 
-  def list_all_books_by_author(author_id)
-    unless author_id.nil? || author_id == ''
-      author = Authors.with_pk(author_id)
-      return author.books unless author.nil?
-    end
-  end
+
 
   def add_new_author(name, age)
     author = Authors.new
