@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sinatra/json'
 require_relative '../../app/services/author_services'
 
-@@AUTHOR_SERVICE = AuthorServices.new
+@@AUTHOR_SERVICE ||= AuthorServices.new
 
 get '/authors' do
   results = @@AUTHOR_SERVICE.list_all_authors
@@ -11,8 +11,8 @@ get '/authors' do
   return response
 end
 
-get '/authors/:id' do |id|
-  response = @@AUTHOR_SERVICE.show_author_info(id)
+get '/authors/:author_id' do |author_id|
+  response = @@AUTHOR_SERVICE.show_author_info(author_id)
   json(response.values) unless response.nil?
 end
 
@@ -22,14 +22,16 @@ post '/authors/create' do
   json(response.values)
 end
 
-patch '/authors/:id' do |id|
+patch '/authors/:author_id' do |author_id|
   data = JSON.parse(request.body.read)
-  response = @@AUTHOR_SERVICE.update_author(id,data['name'],data['age'])
+  response = @@AUTHOR_SERVICE.update_author(author_id,data['name'],data['age'])
   json(response.values) unless response.nil?
 end
 
-delete '/authors/:id' do |id|
-  response = @@AUTHOR_SERVICE.delete_author(id)
+delete '/authors/:author_id' do |author_id|
+  response = @@AUTHOR_SERVICE.delete_author(author_id)
   json(response.values) unless response.nil?
 end
+
+
 
