@@ -1,18 +1,20 @@
 require 'sequel'
+require 'logger'
 require_relative '../../app/models/book'
 require_relative '../../app/models/authors'
 require_relative '../../app/models/author_books'
 
+# This service class performs operations on books.
 class BookServices
+  @logger ||= Logger.new($stderr)
+
   def list_all_books
-    Book.each { |book| p book}
+    Book.each { |book| p book }
   end
 
   def list_all_books_by_author(author_id)
-    unless author_id.nil? || author_id == ''
-      author = Authors.with_pk(author_id)
-      return author.books unless author.nil?
-    end
+    author = Authors.with_pk(author_id)
+    author&.books
   end
 
   def show_book_details_for_author(author_id, book_id)
@@ -26,9 +28,12 @@ class BookServices
 
     unless book.nil?
       author_books = AuthorBooks.new
-      author_books.set(authors_id: author_id,books_id: book[:books_id])
+      author_books.set(authors_id: author_id, books_id: book[:books_id])
       author_books.save
     end
+  rescue Sequel::ValidationFailed => e
+    @logger.fatal("Validation failed while saving book - #{e.message}")
+    nil
   end
 
   def delete_book(author_id, book_id)
@@ -37,9 +42,11 @@ class BookServices
 
     book = Book.with_pk(book_id)
     book&.delete
+  rescue => e
+    @logger.fatal("Failed to delete book - #{e.message}")
   end
 end
 
-#p BookServices.new.list_all_books
-#p BookServices.new.show_book_details_for_author(1,1)
-#p BookServices.new.add_book_for_author(1,'chetan-3',5)
+# p BookServices.new.list_all_books
+# p BookServices.new.show_book_details_for_author(1,1)
+# p BookServices.new.add_book_for_author(1,'chetan-7',5)

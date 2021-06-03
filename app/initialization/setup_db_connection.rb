@@ -4,7 +4,6 @@ require 'sequel'
 require 'mysql2'
 
 class SetupDbConnection
-
   @@DB_CONNECTION = nil
 
   # @return [Sequel:DB]
@@ -15,7 +14,6 @@ class SetupDbConnection
       @@DB_CONNECTION
     end
   end
-
 end
 
-DB = SetupDbConnection.setup_connection;
+DB = SetupDbConnection.setup_connection
