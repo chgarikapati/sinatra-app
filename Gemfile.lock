@@ -10,7 +10,7 @@ GEM
       rack
     require_all (3.0.0)
     ruby2_keywords (0.0.4)
-    sequel (5.14.0)
+    sequel (5.44.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)

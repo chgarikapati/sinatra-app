@@ -10,3 +10,4 @@ gem 'mysql2', '~> 0.5.3'
 gem 'sequel', '~> 5.14'
 gem 'sinatra-contrib', '~> 2.1'
 gem 'require_all', '~> 3.0'
+

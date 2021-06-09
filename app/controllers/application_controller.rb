@@ -1,5 +1,8 @@
 require 'sinatra'
+require 'require_all'
 
-get '/' do
-  'Sinatra Sequel Application !!'
+class ApplicationController < Sinatra::Base
+  get '/' do
+    'Sinatra Sequel Application !!'
+  end
 end
